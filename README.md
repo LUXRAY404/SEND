@@ -1,16 +1,18 @@
 # SEND FLASH
 
-**SEND FLASH** is a terminal-based tool written in Go that allows you to securely send and receive files and folders using the [magic-wormhole](https://github.com/warner/magic-wormhole) protocol. It features a clean, interactive CLI interface with color-coded menus and smooth animations for a polished user experience.
+**SEND FLASH** is a terminal-based tool written in **Bash** that allows you to securely send and receive files and folders using the [magic-wormhole](https://github.com/warner/magic-wormhole) protocol. It features a clean, interactive CLI interface with color-coded menus, smooth animations, and **self-installation for global access**.
 
 ---
 
 ## ⚙️ Features
 
-* Send and receive files/folders securely with Wormhole.
-* Automatic Wormhole installation via `sudo apt install magic-wormhole -y`.
-* Interactive and color-coded CLI interface.
-* Smooth typewriter animation when exiting.
-* Error handling for missing files, installation issues, and invalid inputs.
+* Send and receive files/folders securely via Wormhole.
+* Automatic Wormhole installation if missing (`sudo apt install magic-wormhole -y`).
+* Self-installing Bash version (`/usr/local/bin/sendflash`) for global access.
+* Interactive color-coded CLI menu.
+* Typewriter animation when exiting.
+* Error handling for missing files, invalid inputs, and installation issues.
+* Default save location for received files: `~/Downloads/sendflash_received`.
 
 ---
 
@@ -18,38 +20,44 @@
 
 ### Prerequisites
 
-* **Go** version 1.18 or higher.
-* **sudo** privileges for Wormhole installation.
+* Linux or WSL environment.
+* **sudo** privileges (for installing Wormhole or Bash version globally).
 
-### Install via Go
+### Install Bash Version
 
-Simply run:
-
-```bash
-go install github.com/LUXRAY404/sendflash@latest
-```
-
-This will download, build, and install the `sendflash` binary in your Go bin directory (usually `$HOME/go/bin`).
-
-Make sure `$HOME/go/bin` is in your `PATH`:
+1. Download or clone the Bash script:
 
 ```bash
-export PATH=$PATH:$HOME/go/bin
+wget https://raw.githubusercontent.com/LUXRAY404/sendflash/main/sendflash.sh
 ```
 
-Then run:
+2. Make it executable:
+
+```bash
+chmod +x sendflash.sh
+```
+
+3. Run the script. The first run will automatically:
+
+   * Move the script to `/usr/local/bin/sendflash`
+   * Add `/usr/local/bin` to your PATH if needed
+   * Make it globally executable
+
+```bash
+bash sendflash.sh
+```
+
+After installation, you can run it anywhere with:
 
 ```bash
 sendflash
 ```
 
-The tool will check for Wormhole and install it automatically if needed.
-
 ---
 
 ## 📂 Usage
 
-When you run `sendflash`, you’ll see:
+When you run `sendflash`, the menu will appear:
 
 ```
 ┌──(SENDFLASH㉿WORMHOLE)-[~]
@@ -61,10 +69,32 @@ When you run `sendflash`, you’ll see:
 [04] EXIT
 ```
 
-* **Send a file/folder**: `[01]` → Enter file/folder path.
-* **Receive a file/folder**: `[02]` → Enter the receiver key from the sender.
+* **Send a file/folder**: `[01]` → Enter the full path to your file or folder. You will receive a **Wormhole key** to share with the receiver.
+* **Receive a file/folder**: `[02]` → Enter the key provided by the sender. Files are saved to `~/Downloads/sendflash_received`.
 * **Update tool**: `[03]` → Checks for updates (currently displays "up-to-date").
-* **Exit**: `[04]`.
+* **Exit**: `[04]` → Exits the tool with a typewriter animation.
+
+---
+
+### Quick Demo Workflow
+
+**Sender Terminal:**
+
+```bash
+sendflash
+# 01
+# /home/user/Documents/test.txt
+# → Displays key: 7-crystal-cupcake
+```
+
+**Receiver Terminal:**
+
+```bash
+sendflash
+# 02
+# 7-crystal-cupcake
+# → File saved to ~/Downloads/sendflash_received/test.txt
+```
 
 ---
 
@@ -86,5 +116,4 @@ cd sendflash
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 

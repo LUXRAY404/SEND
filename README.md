@@ -1,4 +1,4 @@
-# SEND FLASH
+<h1 align="center">SEND FLASH</h1>
 
 **SEND FLASH** is a terminal-based tool written in **Bash** that allows you to securely send and receive files and folders using the [magic-wormhole](https://github.com/warner/magic-wormhole) protocol. It features a clean, interactive CLI interface with color-coded menus, smooth animations, and **self-installation for global access**.
 
@@ -29,7 +29,7 @@
 
 ```bash
 wget https://raw.githubusercontent.com/LUXRAY404/sendflash/main/sendflash.sh
-```
+````
 
 2. Make it executable:
 
@@ -116,4 +116,5 @@ cd sendflash
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 

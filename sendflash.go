@@ -148,8 +148,8 @@ func receiveFile(reader *bufio.Reader) {
 
 	color.Yellow("\nRECEIVING FILE...\n")
 
-	// Automatically accept the transfer
-	cmd := exec.Command("wormhole", "receive", "--accept", key)
+	// Use bash pipe to auto-confirm if needed
+	cmd := exec.Command("bash", "-c", fmt.Sprintf("yes | wormhole receive %s", key))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 

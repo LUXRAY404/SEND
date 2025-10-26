@@ -9,7 +9,7 @@ RED="\033[1;31m"
 NC="\033[0m"
 
 # Download sendflash.sh from GitHub
-SCRIPT_URL="https://raw.githubusercontent.com/INTELEON404/sendflash/main/sendflash.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/LUXRAY404/sendflash/main/sendflash.sh"
 SCRIPT_NAME="sendflash.sh"
 
 echo -e "${YELLOW}Downloading $SCRIPT_NAME...${NC}"

@@ -148,9 +148,11 @@ func receiveFile(reader *bufio.Reader) {
 
 	color.Yellow("\nRECEIVING FILE...\n")
 
-	cmd := exec.Command("wormhole", "receive", key)
+	// Automatically accept the transfer
+	cmd := exec.Command("wormhole", "receive", "--accept", key)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+
 	if err := cmd.Run(); err != nil {
 		color.Red("FAILED TO RECEIVE FILE. CHECK THE KEY.\n")
 		return

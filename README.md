@@ -28,7 +28,7 @@
 1. Download or clone the Bash script:
 
 ```bash
-wget https://raw.githubusercontent.com/LUXRAY404/sendflash/main/sendflash.sh
+wget https://raw.githubusercontent.com/INTELEON404/sendflash/main/sendflash.sh
 ````
 
 2. Make it executable:

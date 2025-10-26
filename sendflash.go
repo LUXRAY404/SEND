@@ -26,17 +26,17 @@ func typeWriter(text string, delay time.Duration) {
 		fmt.Printf("%c", char)
 		time.Sleep(delay)
 	}
+	fmt.Println()
 }
 
 // CHECK AND INSTALL WORMHOLE
 func checkWormhole() {
 	if _, err := exec.LookPath("wormhole"); err != nil {
 		color.Yellow("WORMHOLE NOT FOUND. INSTALLING...\n")
-		installCmd := exec.Command("pip3", "install", "--user", "magic-wormhole")
+		installCmd := exec.Command("sudo", "apt", "install", "magic-wormhole", "-y")
 		installCmd.Stdout = os.Stdout
 		installCmd.Stderr = os.Stderr
-		err := installCmd.Run()
-		if err != nil {
+		if err := installCmd.Run(); err != nil {
 			color.Red("FAILED TO INSTALL WORMHOLE. PLEASE INSTALL MANUALLY.\n")
 			os.Exit(1)
 		}
@@ -56,7 +56,7 @@ func showMenu() {
 	yellow := color.New(color.FgYellow, color.Bold).SprintFunc()
 	red := color.New(color.FgRed, color.Bold).SprintFunc()
 
-	fmt.Println(cyan("┌──(SENDFLASH㉿LINUX)-[~]"))
+	fmt.Println(cyan("┌──(SENDFLASH㉿WORMHOLE)-[~]"))
 	fmt.Println(cyan("└─$ SENDFLASH"))
 	fmt.Println()
 	fmt.Println(green("[01]") + " SEND A FILE/FOLDER")
@@ -108,24 +108,33 @@ func sendFile(reader *bufio.Reader) {
 	color.Yellow("\nSENDING VIA WORMHOLE...\n")
 
 	cmd := exec.Command("wormhole", "send", path)
-	stdout, _ := cmd.StdoutPipe()
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		color.Red("FAILED TO START WORMHOLE.\n")
+		return
+	}
 	cmd.Stderr = cmd.Stdout
 
-	cmd.Start()
+	if err := cmd.Start(); err != nil {
+		color.Red("FAILED TO EXECUTE WORMHOLE.\n")
+		return
+	}
 
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
-		line := strings.ToUpper(scanner.Text())
-		if strings.Contains(line, "WORMHOLE CODE") {
-			parts := strings.Split(line, ":")
-			if len(parts) > 1 {
-				color.Green("\nYOUR RECEIVER KEY: " + strings.TrimSpace(parts[1]))
-			}
+		line := scanner.Text()
+		if strings.Contains(strings.ToUpper(line), "WORMHOLE CODE") {
+			color.Green("\nYOUR RECEIVER KEY: " + strings.TrimSpace(line))
 		} else {
 			fmt.Println(line)
 		}
 	}
-	cmd.Wait()
+
+	if err := cmd.Wait(); err != nil {
+		color.Red("ERROR OCCURRED DURING FILE SEND.\n")
+		return
+	}
+
 	color.Green("\nFILE SENT SUCCESSFULLY!\n")
 	time.Sleep(3 * time.Second)
 }
@@ -142,7 +151,11 @@ func receiveFile(reader *bufio.Reader) {
 	cmd := exec.Command("wormhole", "receive", key)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Run()
+	if err := cmd.Run(); err != nil {
+		color.Red("FAILED TO RECEIVE FILE. CHECK THE KEY.\n")
+		return
+	}
+
 	color.Green("\nFILE RECEIVED SUCCESSFULLY!\n")
 	time.Sleep(3 * time.Second)
 }

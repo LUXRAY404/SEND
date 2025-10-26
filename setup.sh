@@ -1,6 +1,6 @@
 #!/bin/bash
 # SETUP.SH
-# Auto-install SendFlash and dependencies
+# Auto-download, install, and setup SendFlash
 
 # Colors
 GREEN="\033[1;32m"
@@ -8,10 +8,15 @@ YELLOW="\033[1;33m"
 RED="\033[1;31m"
 NC="\033[0m"
 
-# Check if script exists in current folder
+# Download sendflash.sh from GitHub
+SCRIPT_URL="https://raw.githubusercontent.com/INTELEON404/sendflash/main/sendflash.sh"
 SCRIPT_NAME="sendflash.sh"
+
+echo -e "${YELLOW}Downloading $SCRIPT_NAME...${NC}"
+wget -q "$SCRIPT_URL" -O "$SCRIPT_NAME"
+
 if [ ! -f "$SCRIPT_NAME" ]; then
-    echo -e "${RED}Error: $SCRIPT_NAME not found in current directory!${NC}"
+    echo -e "${RED}Failed to download $SCRIPT_NAME!${NC}"
     exit 1
 fi
 
@@ -35,3 +40,4 @@ if ! echo "$PATH" | grep -q "/usr/local/bin"; then
 fi
 
 echo -e "${GREEN}Installation complete! You can now run 'sendflash' from anywhere.${NC}"
+echo -e "${GREEN}Run it with: sendflash${NC}"

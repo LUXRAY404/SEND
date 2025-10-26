@@ -40,6 +40,9 @@ chmod +x sendflash.sh
 3. Run the script. The first run will automatically:
 
    * Move the script to `/usr/local/bin/sendflash`
+     ```
+     mv sendflash.sh /usr/local/bin/sendflash
+     ```
    * Add `/usr/local/bin` to your PATH if needed
    * Make it globally executable
 
